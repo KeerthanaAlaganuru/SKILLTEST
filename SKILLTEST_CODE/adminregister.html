@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  	<link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="K.jpeg" type="image/png">
+  	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
+<body style="background-color: rgb(159, 163, 158)">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top-navbar">
+    <a class="navbar-brand dflex" href="#about">
+        <img src="K.jpeg" class="rounded-pill" height="50" width="100%">
+        <span class="text-warning m-0 ml-2">SKILL TEST</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="SkillTestWeb.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="administration.html">Administration</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="studentregister.html">Student Registration</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="studentlogin.php">Student Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <br><br><br><br><br><br><br><br><br><br>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h2 class="text-center">Admin Registration</h2>
+            <form class="custom-form" id="regform" method="POST" action="admindata.php">
+                <div class="form-group">
+                    <label for="userid">User ID:</label>
+                    <input type="text" class="form-control custom-input" id="user" name="userid" placeholder="Enter your user ID">
+                    <div class="invalid-feedback" id="useridError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="branch">Branch:</label>
+                    <input type="text" class="form-control custom-input" id="branch" name="branch" placeholder="Enter your branch">
+                    <div class="invalid-feedback" id="branchError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control custom-input" id="pwd" name="password">
+                    <div class="invalid-feedback" id="passwordError"></div>
+                    <div class="form-text">
+                        <span>Your password must contain at least 8 characters, special symbols (@, _), and at least one digit.</span>
+                    </div>
+                </div>
+                <center><button type="submit" class="btn btn-primary btn-block">Register</button></center>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("regform");
+        const userid = document.getElementById("user");
+        const password = document.getElementById("pwd");
+        const branch = document.getElementById("branch");
+
+        form.addEventListener("submit", function (event) {
+            let valid = true;
+
+            if (userid.value.trim() === "" || password.value === "" || branch.value === "") {
+                valid = false;
+                // Display error messages for empty fields
+                if (userid.value.trim() === "") {
+                    userid.classList.add("is-invalid");
+                    document.getElementById("useridError").textContent = "User ID is required.";
+                } else {
+                    userid.classList.remove("is-invalid");
+                    document.getElementById("useridError").textContent = "";
+                }
+
+                if (password.value === "") {
+                    password.classList.add("is-invalid");
+                    document.getElementById("passwordError").textContent = "Password is required.";
+                } else {
+                    password.classList.remove("is-invalid");
+                    document.getElementById("passwordError").textContent = "";
+                }
+
+                if (branch.value.trim() === "") {
+                    valid = false;
+                    branch.classList.add("is-invalid");
+                    document.getElementById("branchError").textContent = "Branch is required.";
+                } else if (branch.value.trim().length > 50) {
+                    valid = false;
+                    branch.classList.add("is-invalid");
+                    document.getElementById("branchError").textContent = "Branch name is too long (maximum 50 characters).";
+                } else {
+                    branch.classList.remove("is-invalid");
+                    document.getElementById("branchError").textContent = "";
+                }
+
+                event.preventDefault();
+                return;
+            }
+
+            if (userid.value.length !== 3) {
+                valid = false;
+                userid.classList.add("is-invalid");
+                document.getElementById("useridError").textContent = "User ID must be exactly 3 characters long.";
+            } else {
+                userid.classList.remove("is-invalid");
+                document.getElementById("useridError").textContent = "";
+            }
+
+            const passwordValue = password.value;
+            if (passwordValue.length > 255 || !/[ @_]/.test(passwordValue) || !/\d/.test(passwordValue)) {
+                valid = false;
+                password.classList.add("is-invalid");
+                document.getElementById("passwordError").textContent = "Password must contain at least 8 characters, special symbols (@, _), and at least one digit with a maximum length of 15.";
+            } else {
+                password.classList.remove("is-invalid");
+                document.getElementById("passwordError").textContent = "";
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>
